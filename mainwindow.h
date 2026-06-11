@@ -3,32 +3,46 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include <wiringPi.h>
 #include <wiringPiI2C.h>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QChart>
+#include <QtCharts/QValueAxis>
+
+QT_CHARTS_USE_NAMESPACE
 
 #define I2C_ADRESA 0x48
 
-QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
-    void ocitajSenzore();
+    void ocitajNapon();
+    void on_pushButton_start_clicked();
+    void on_pushButton_obrisi_clicked();
+    void on_pushButton_zatvori_clicked();
 
 private:
     Ui::MainWindow *ui;
-    QTimer *tajmer;
-    int i2c_fd;
+    QTimer         *tajmer;
+    int             i2c_fd;
+
+    QLineSeries    *series;
+    QChart         *chart;
+    QChartView     *chartView;
+    QValueAxis     *axisX;
+    QValueAxis     *axisY;
+
+    int sekunda;
 };
 
 #endif // MAINWINDOW_H
